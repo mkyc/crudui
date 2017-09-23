@@ -3,9 +3,7 @@ package org.vaadin.crudui.form;
 import com.vaadin.data.HasValue;
 import org.vaadin.crudui.crud.CrudOperation;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Alejandro Duarte
@@ -22,6 +20,11 @@ public abstract class AbstractCrudFormFactory<T> implements CrudFormFactory<T> {
     @Override
     public void setVisibleProperties(String... properties) {
         Arrays.stream(CrudOperation.values()).forEach(operation -> setVisibleProperties(operation, properties));
+    }
+
+    @Override
+    public List<String> getVisibleProperties(CrudOperation operation) {
+        return getConfiguration(operation).visibleProperties;
     }
 
     @Override
@@ -74,9 +77,10 @@ public abstract class AbstractCrudFormFactory<T> implements CrudFormFactory<T> {
         Arrays.stream(CrudOperation.values()).forEach(operation -> setFieldProvider(operation, property, provider));
     }
 
-    protected CrudFormConfiguration getConfiguration(CrudOperation operation) {
+    public CrudFormConfiguration getConfiguration(CrudOperation operation) {
         configurations.putIfAbsent(operation, new CrudFormConfiguration());
         return configurations.get(operation);
     }
+
 
 }

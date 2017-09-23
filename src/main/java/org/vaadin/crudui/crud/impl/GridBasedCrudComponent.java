@@ -10,10 +10,12 @@ import org.vaadin.crudui.crud.AbstractCrudComponent;
 import org.vaadin.crudui.crud.CrudOperation;
 import org.vaadin.crudui.crud.CrudOperationException;
 import org.vaadin.crudui.crud.FindAllCrudOperationListener;
+import org.vaadin.crudui.form.CrudFormConfiguration;
 import org.vaadin.crudui.layout.CrudLayout;
 import org.vaadin.crudui.layout.impl.WindowBasedCrudLayout;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * @author Alejandro Duarte
@@ -29,7 +31,7 @@ public class GridBasedCrudComponent<T> extends AbstractCrudComponent<T> {
     private Button addButton;
     private Button updateButton;
     private Button deleteButton;
-    private Grid<T> grid = new Grid<>();
+    private Grid<T> grid = new Grid<>(domainType);
 
     Collection<T> items;
 
@@ -43,6 +45,7 @@ public class GridBasedCrudComponent<T> extends AbstractCrudComponent<T> {
     }
 
     protected void initLayout() {
+        System.out.println("INIT LAYOUT");
         findAllButton = new Button("", e -> findAllButtonClicked());
         findAllButton.setDescription("Refresh list");
         findAllButton.setIcon(FontAwesome.REFRESH);
@@ -68,6 +71,25 @@ public class GridBasedCrudComponent<T> extends AbstractCrudComponent<T> {
         crudLayout.setMainComponent(grid);
 
         updateButtons();
+    }
+
+    @Override
+    public void attach() {
+        super.attach();
+        System.out.println("ATTACH");
+        //TODO move to setVisibleProperties
+        List<String> properties = crudFormFactory.getVisibleProperties(CrudOperation.READ);
+
+        grid.removeAllColumns();
+        for(String property : properties) {
+            System.out.println("GRID PROPS: " + property);
+            grid.addColumn(property);
+
+
+            Grid.Column column = grid.getColumn(property);
+            System.out.println(column.getValueProvider().getClass());
+            System.out.println(column);
+        }
     }
 
     @Override

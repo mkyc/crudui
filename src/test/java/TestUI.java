@@ -23,7 +23,6 @@ public class TestUI extends UI implements CrudListener<User> {
 
     public static void main(String[] args) throws Exception {
         VaadinJettyServer server = new VaadinJettyServer(8080, TestUI.class);
-        server.start();
 
         Group employees = new Group("Employees", false);
         Group admins = new Group("Admins", true);

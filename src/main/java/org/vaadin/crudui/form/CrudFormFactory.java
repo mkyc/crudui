@@ -6,6 +6,7 @@ import com.vaadin.ui.Component;
 import org.vaadin.crudui.crud.CrudOperation;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author Alejandro Duarte
@@ -17,6 +18,8 @@ public interface CrudFormFactory<T> extends Serializable {
     void setVisibleProperties(CrudOperation operation, String... properties);
 
     void setVisibleProperties(String... properties);
+
+    List<String> getVisibleProperties(CrudOperation operation);
 
     void setDisabledProperties(CrudOperation operation, String... properties);
 
